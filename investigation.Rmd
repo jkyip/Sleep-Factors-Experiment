@@ -1,7 +1,7 @@
 ---
 title: "Investigation on the Ideal Sleeping Conditions for Students"
 subtitle: "STA305 H1S Sec L0101"
-author: "Chun Ki Yip: 1004532589"
+author: "Chun Ki Yip"
 date: "April 8, 2022"
 output: pdf_document
 ---
