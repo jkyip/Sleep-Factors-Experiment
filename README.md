@@ -37,6 +37,7 @@ The knowledge and skills gained from this course were applied to design and anal
 - `.gitignore`: Gitignore file for R projects.
 - `LICENSE`: The MIT License for this project.
 - `README.md`: This file providing an overview of the project.
+- `Investigation_Ideal_Sleeping_Conditions.pdf`: Exported PDF report summarizing the project findings.
 
 ## Gitignore
 
