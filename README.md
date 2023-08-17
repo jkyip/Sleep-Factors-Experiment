@@ -72,4 +72,4 @@ The analysis uncovers notable effects of temperature and brightness on the time 
 
 5. Yihui Xie (2021). *knitr: A General-Purpose Package for Dynamic Report Generation in R.* R package version 1.37.
 
-For any inquiries, please contact Chun Ki Yip at [your-email@example.com](mailto:your-email@example.com).
+For any inquiries, please contact Chun Ki Yip at [jackyyipchunki@gmail.com](mailto:jackyyipchunki@gmail.com).
