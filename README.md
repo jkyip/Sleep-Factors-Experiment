@@ -37,7 +37,7 @@ The knowledge and skills gained from this course were applied to design and anal
 - `.gitignore`: Gitignore file for R projects.
 - `LICENSE`: The MIT License for this project.
 - `README.md`: This file providing an overview of the project.
-- `STA305-Final-Project.pdf`: Exported PDF report summarizing the project findings.
+- `Report.pdf`: Exported PDF report summarizing the project findings.
 
 ## Gitignore
 
