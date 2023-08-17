@@ -1,0 +1,9 @@
+﻿Unit,Temperature,Blanket,Brightness
+1,Low,Light ,Low
+2,High,Light ,Low
+3,Low,Light ,High
+4,High,Light ,High
+5,Low,Heavy,Low
+6,High,Heavy,Low
+7,Low,Heavy,High
+8,High,Heavy,High

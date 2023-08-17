@@ -1,0 +1,194 @@
+---
+title: "Investigation on the Ideal Sleeping Conditions for Students"
+subtitle: "STA305 H1S Sec L0101"
+author: "Chun Ki Yip: 1004532589"
+date: "April 8, 2022"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+library(tidyverse)
+library(FrF2)
+library(knitr)
+```
+
+```{r}
+# Reading a file with all the treatment names
+trt <- read.csv("data.csv")
+```
+
+```{r}
+# Generating Data
+set.seed(8241)
+trial1 <- round(rnorm(4,10,3))
+trial2 <- round(rnorm(4,16,4))
+trial3 <- round(rnorm(4,18,5))
+trial4 <- round(rnorm(4,57,10))
+trial5 <- round(rnorm(4,5,2))
+trial6 <- round(rnorm(4,24,4))
+trial7 <- round(rnorm(4,33,3))
+trial8 <- round(rnorm(4,45,8))
+dat <- rbind(trial1,trial2,trial3,trial4,trial5,trial6,trial7,trial8)
+dat <- as.data.frame(dat)
+colnames(dat) <- c("Student 1", "Student 2", "Student 3", "Student 4")
+dat$average <- round((dat$`Student 1`+dat$`Student 2`+dat$`Student 3`+dat$`Student 4`)/4)
+
+data <- cbind(trt, dat)
+raw_data <- data
+data <- data[, c(1, 2, 3, 4, 9)]
+
+Temperature<- as.factor(data$Temperature); Blanket<- as.factor(data$Blanket) ; 
+Brightness<- as.factor(data$Brightness) ; Time <- data$average
+
+
+data1 <- as.data.frame(cbind(Temperature,Blanket,Brightness,Time))
+for (i in 1:8){
+    if (data1$Temperature[i] == 2){
+        data1$Temperature[i] = -1
+    } }
+
+for (i in 1:8){
+    if (data1$Blanket[i] == 2){
+        data1$Blanket[i] = -1
+    } }
+
+for (i in 1:8){
+    if (data1$Brightness[i] == 2){
+        data1$Brightness[i] = -1
+    } }
+
+data1$Blk = data1$Temperature * data1$Blanket * data1$Brightness
+
+for (i in 1:8){
+    if (data1$Blk[i] == -1){
+        data1$Blk[i] = 2
+    } }
+
+Blk <- as.factor(data1$Blk)
+
+raw_data <- cbind(Blk, raw_data)
+data <- as.data.frame(cbind(Blk,Temperature,Blanket,Brightness,Time))
+
+# Export the raw data file
+write.csv(raw_data,"Raw Data.csv", row.names = FALSE)
+
+```
+
+
+# Introduction
+
+Recently there is a surge of complaints from the parents that their children have not been getting enough rest at our boarding school. As the head of health and wellness of our boarding school I was assigned to find the most suitable conditions for our students to fall asleep to deal with the complaints. After some serious discussion regarding the privacy of students with the school board, PTA, and many parents, I’ve successfully gotten permission from 16 student’s parents to monitor their children’s sleep for one day, both during the afternoon nap and at night. Each dorm room at our boarding school have 4 beds each, so I’m able to set up a total of 8 different experiments on this one day. Due to the limited trials I’ve decided to design a factorial experiment to test out the best conditions that will help my students fall asleep the quickest. 
+
+# Method and Materials 
+
+## Experimental Design 
+
+There are three factors which I would like to experiment on for the conditions of the dorms; the room temperature at 20 celsius and 24 celsius (low and high), the weight of the blanket which could be light or heavy, and the brightness of the room which could be in complete darkness or with a night lamp (low and high). This would be a single replicate $2^3$ factorial experiment design consisting of 8 experimental units, and since there are only 16 participating students which would fill up 4 dorm rooms in total, I would only be able to experiment on four different combinations of temperature and brightness at a time. Luckily, I have two chances to conduct this experiment, once during the afternoon nap time and once at night, which will add up to exactly 8 trials as needed. Since the nature of an afternoon nap and sleeping at night is not quite the same, these two different times would be considered as two different blocks of the experiment.
+
+For the best results, we would want to set the confounding of the blocks in the highest order of interactions, in other words, the experiment trial with high temperature, heavy blanket, and high brightness. For assigning the blocks, I would make a table with all the possible combinations of factors as the rows and label the level 1 factor as -1 and level 2 factor as 1 in each column, then multiply the values in each row to get either 1 or -1, in which we will assign the experimental units according to the product of the row, where all the -1s will be assigned to block 1 i.e. the afternoon trials and all the 1s would assigned to block 2 i.e. the night trials. The assignment is shown in following table. 
+
+```{r, fig.cap= "Experimental Design"}
+kable(as.tibble((data1)), caption = "Experimental Design")
+```
+
+## Materials
+ 
+After assigning the blocks we may begin our experiment. These are the materials needed for a single replicate of the experiment:
+
+* 16 volunteer students
+* 4 4 dorm rooms with thermostat 
+* 16 light blankets
+* 16 heavy blankets
+* 2 night lamps
+* 4 night camera
+* 1 monitor connected to night camera
+* 1 stop watch
+* 1 computer for logging
+
+Note: Every student will have their own light and heavy blanket due to sanitary reasons even though only 8 light and 8 heavy blankets would be used at a time. 
+
+## Experiment Procedure
+
+1.	First set up the 4 dorm rooms according to the block 1 of the experiment design and set up night cameras and a monitor showing all 4 rooms, make sure the camera has a clear view of all four students.
+
+2.	Start the stop watch immediately after afternoon nap have started, and observe the monitor carefully, logging down the time it took for each student to fall asleep precisely up to the minute for each student. 
+
+3.	Once every student have fallen asleep, you can stop observing. 
+
+4.	Calculate the average time elaspsed until the students fell asleep for each dorm. 
+
+5.	After the students have waken up and left, set up the 4 dorm rooms according to block 
+2 of the experiment design by changing the thermostats, blankets, and moving the night lamps. 
+
+6.	Repeat steps 2-4 at night.
+
+Note: The data used for this report was generated by sampling from a normal distribution of different mean that is roughly based on factors listed on the articles *8 secrets to a good night sleep* [1], *How Long Does It Typically Take to Fall Asleep?* [2] and common sense. The standard deviation were chosen arbritrarily while keeping in mind that it shouldn’t be too large that would result in a negative number. 
+
+## Statistical Analysis
+
+```{r}
+fit <- lm(Time~ Blk+Temperature*Blanket*Brightness)
+```
+
+```{r, fig.cap= "Half Normal plot of effects"}
+
+DanielPlot(fit, half= TRUE,autolab = F, main = "Half Normal plot of effects")
+
+```
+The half normal plot [3] of all the effects and interactions shows that the active effects are brightness, temperature, blanket, and the blocks (afternoon versus night), and the active interaction is between temperature and brightness. By modeling the active main effects and interactions we can calculate the factorial estimates using R.
+```{r, include = FALSE}
+fit1 <- lm(Time~ Blk + Temperature * Brightness + Blanket)
+round(2*fit1$coefficients,2)
+```
+The level one main effect calculations are the following:
+
+* Temperature = -56.0
+* Brightness = -65.0
+* Blanket = -8.0
+* Block = 19
+
+And the level two main interaction calculation is the following:
+
+* Temperature and Brightness = 34
+
+```{r}
+#Reading the anova table
+anova <- read.csv("anova.csv")
+anova <- as.data.frame(anova)
+anova$F.value[6] = " "
+anova$P.value[6] = " "
+kable(as.tibble(anova), caption = "ANOVA Table" )
+```
+
+```{r, include = FALSE}
+summary(aov(fit1))
+```
+From observing the ANOVA table calulated using R, we can see that the only main effects that are significant at $\alpha = 0.05$ are temperature and brightness. 
+
+# Conclusion
+
+There is strong evidence against the null hypothesis which states that there are no difference between the time it takes to fall asleep for between all combinations of factors. Furthermore, the P-value from the ANOVA table and linear model indicate that temperature and brightness are the two significant factors which help decrease the time it takes for a student to fall asleep. The negative factorial estimate for both temperature and brightness shows that lower temperature and lower brightness level are the most ideal conditions for a student to fall asleep as quickly as possible.  
+
+The most direct improvement for this experiment is increasing the number of trials by getting more participates, as a one replicate experiment isn't a great showcase of an investigation. Another improvement could be improving the precision in equipment and reducing human error in judging whether a student as fallen asleep or not by using tools like an smart watch to track the student's sleep. It would also be beneficial to test out more factors, some that comes to mind immediately are exercising before sleep, meal before sleep, and ambient noise [1].
+
+# Reference 
+
+1. The President and Fellows of Harvard College. (2021, September 30). *8 secrets to a good night's sleep.* Harvard Health. Retrieved April 8, 2022, from https://www.health.harvard.edu/newsletter_article/8-secrets-to-a-good-nights-sleep 
+
+2. Silver, N. (2020, June 5). *How long does it take to fall asleep? average time and tips.*Healthline. Retrieved April 8, 2022, from https://www.healthline.com/health/healthy-sleep/how-long-does-it-take-to-fall-asleep#:~:text=The%20normal%20time%20it%20takes,an%20underlying%20issue%20to%20consider. 
+
+3. Ulrike Gr"omping (2014). *R Package FrF2 for Creating and Analyzing Fractional Factorial 2-Level Designs. Journal of Statistical Software,* 56(1), 1-56. URL
+  http://www.jstatsoft.org/v56/i01/.
+
+4. Wickham et al., (2019). *Welcome to the tidyverse. Journal of Open Source
+  Software,* 4(43), 1686, https://doi.org/10.21105/joss.01686. 
+
+5. Yihui Xie (2021). *knitr: A General-Purpose Package for Dynamic Report Generation
+  in R.* R package version 1.37.
+
+
+
+
+

@@ -1,0 +1,7 @@
+﻿Source,Df,SS,MSE,F-value,P-value
+Block,1,180.5,180.5,17.61,0.05237
+Temperature,1,760.5,760.5,74.195,0.01321
+Brightness,1,1152,1152,112.39,0.00878
+Blanket,1,32,32,3.122,0.21928
+Temerperature:Brightness,1,144.5,144.5,14.098,0.06418
+Residuals,2,20.5,10.3,,
